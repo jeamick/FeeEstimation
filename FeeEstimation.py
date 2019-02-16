@@ -1,17 +1,3 @@
-class MempoolTransaction():
-    def __init__(self, txid, fee, weight, parents):
-        self.txid = txid
-        self.fee = int(fee)
-        # TODO: add code to parse weight and parents fields
-        self.weight = int(weight)
-        self.parents = parents.strip().split(';')
-        
-
-def parse_mempool_csv():
-    """Parse the CSV file and return a list of MempoolTransactions."""
-    with open('mempool.csv') as f:
-        return([MempoolTransaction(*line.strip().split(',')) for line in f.readlines()])
-
 # I. Understand the Question:
 # --> We have an optimization problem where we need to maximum total fee for a miner by taking
 #      into account two constraints:
@@ -30,18 +16,51 @@ def parse_mempool_csv():
 # ------> problem similar to Knapsack Problem with two conditions and one constraint.
 
 # II.2 Craft a more elegant Solution:
-#   ----> 1) Naive Solution : Search to calculate all combinaisons while taking into account the parents 
+#   ----> 1) Elegant Solution : let's use a dynamic programming solution
 #   ----> 1) insertion
 #   --------> Too many Case to make even without the parents Insertions (5214*5214) and before each intertion test if the weight is above 4.000.000 and insert parents transactions
 #   --------> The complexity we have is like k*p + 2^n with n number of items and k*p some particular values concerning the parents search insertion so z * 2^n as a complexity
 # Conclusion
 # ------> problem similar to Knapsack Problem with two conditions and one constraint: 
 
+class MempoolTransaction():
+    def __init__(self, txid, fee, weight, parents):
+        self.txid = txid
+        self.fee = int(fee)
+        # TODO: add code to parse weight and parents fields
+        self.weight = int(weight)
+        self.parents = parents.strip().split(';')
+        
+
+def parse_mempool_csv():
+    """Parse the CSV file and return a list of MempoolTransactions."""
+    with open('mempool.csv') as f:
+        return([MempoolTransaction(*line.strip().split(',')) for line in f.readlines()])
+
+
+def max_total_fees_tab(S, W):
+
+    """ Parse the CSV file and return a list of MempoolTransactions."""
+    """ Need to modify this algotithm in order to have the parent transactions."""
+    """ Ihope I will have time for that..."""
+
+    mat = [[0] * (W + 1) for i in range(len(S))]
+    for i in range(0, len(S)):
+        for j in range(0, len(mat[0])):
+            if S[i][1] > j:
+                mat[i][j] = mat[i - 1][j]
+            else:
+                mat[i][j] = max(mat[i - 1][j], mat[i - 1][int(j - S[i][1])] + S[i][2])
+    return mat
 
 
 if __name__ ==  "__main__": 
 
     a = parse_mempool_csv()
+    Tx_Id = [i.txid for i in a]
     Fees = [i.fee for i in a]
     Weight = [i.weight for i in a]
-    print(len(Fees))
+    Parents = [i.parents for i in a]
+    Limit = 4000000 ## Weight Limit
+
+    S = [tuple(Tx_Id[i], Fees[i], Weight[i]) for i in a] #array of couple(transaction ID, size, fee) for each transaction of the dataset
