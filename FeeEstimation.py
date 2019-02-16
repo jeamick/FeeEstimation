@@ -12,7 +12,7 @@ def parse_mempool_csv():
     with open('mempool.csv') as f:
         return([MempoolTransaction(*line.strip().split(',')) for line in f.readlines()])
 
-# I Understansd the Question:
+# I. Understand the Question:
 # --> We have an optimization problem where we need to maximum total fee for a miner by taking
 #      into account two constraints:
 
@@ -20,21 +20,21 @@ def parse_mempool_csv():
 # ----------> 2) A transaction which possessess parents may appear in a Block on if 
 # ----------> 2) if all of its parents appear earlier in the block.
 
-# II Craft a Solution:
+# II. Craft a Solution:
 # II.1 Craft a  naive solution(brute-force):
 #   ----> 1) Naive Solution : Search to calculate all combinaisons while taking into account the parents 
 #   ----> 1) insertion
 #   --------> Too many Case to make even without the parents Insertions (5214*5214) and before each intertion test if the weight is above 4.000.000 and insert parents transactions
-#   --------> The complexity we have is like k*p + 2^n with n number of items and k*p some particular values concerning the parents search insertion so z * 2^n as a complexity
-#Conclusion
-# ------> problem similar to Knapsack Problem with two conditions and one constraint. Let's use 
+#   --------> The complexity we have is like k*p + 2^n with n number of items and k*p some particular values concerning the parents search insertion so like 2^n as a complexity
+# Conclusion
+# ------> problem similar to Knapsack Problem with two conditions and one constraint.
 
-# II.2 Craft a Solution:
+# II.2 Craft a more elegant Solution:
 #   ----> 1) Naive Solution : Search to calculate all combinaisons while taking into account the parents 
 #   ----> 1) insertion
 #   --------> Too many Case to make even without the parents Insertions (5214*5214) and before each intertion test if the weight is above 4.000.000 and insert parents transactions
 #   --------> The complexity we have is like k*p + 2^n with n number of items and k*p some particular values concerning the parents search insertion so z * 2^n as a complexity
-#Conclusion
+# Conclusion
 # ------> problem similar to Knapsack Problem with two conditions and one constraint: 
 
 
