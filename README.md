@@ -1,11 +1,4 @@
-# Chaincode Labs Residency Coding Challenge
-
-Thank you for applying to the 2019 Chaincode summer residency and
-congratulations for making it to our coding challenge.
-
-This task will give you a chance to showcase your abilities and give us a sense
-of how you approach problems and write code. The challenge is open-ended and
-allows for multiple approaches.
+#  Coding Challenge
 
 ## The problem
 
@@ -83,20 +76,6 @@ def parse_mempool_csv():
   For this exercise assume that there is no coinbase transaction.
 - A transaction may only appear in a block if all of its parents appear
   _earlier_ in the block.
-
-## General advice
-
-- Spend no more than two hours on the exercise. It’s intentional that this
-  isn’t enough time to come up with a ‘perfect’ solution. First, make a naive
-  solution that constructs a valid block, then iterate to improve it.
-- We’re most familiar with Python, C++, JavaScript, Java, Rust, Scheme, Lisp,
-  and Elixir and would prefer to receive solutions in those languages. If you’d
-  like to use a different language, please check with us first to make sure we’ll
-  be able to review it!
-- The usual good principles of software engineering apply: we want
-  maintainable, clear code that’s easy to run, test, and understand.
-- You should be able to explain your reasoning, design decisions, and
-  trade-offs.
 
 You should send us:
 

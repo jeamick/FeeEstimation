@@ -2,9 +2,10 @@ class MempoolTransaction():
     def __init__(self, txid, fee, weight, parents):
         self.txid = txid
         self.fee = int(fee)
+        # TODO: add code to parse weight and parents fields
         self.weight = int(weight)
         self.parents = parents.strip().split(';')
-        # TODO: add code to parse weight and parents fields
+        
 
 def parse_mempool_csv():
     """Parse the CSV file and return a list of MempoolTransactions."""
