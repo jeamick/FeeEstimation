@@ -73,13 +73,20 @@ def list_transactions(M, S, W):
 if __name__ ==  "__main__": 
 
     a = parse_mempool_csv()
-    Tx_Id = [i.txid for i in a]
+    Tx_Id = [i for i in range(len(a))]
     Fees = [i.fee for i in a]
     Weight = [i.weight for i in a]
     Parents = [i.parents for i in a]
     Limit = 4000000 ## Weight Limit
+    t = () 
+    p = []
+    for i in range(len(a)):
+        a = [str(Tx_Id[i]), int(Weight[i]), int(Fees[i])]
+        t = t + a
+        p.append(t)
+    print(p)
 
-    S = [tuple(Tx_Id[i], Weight[i], Fees[i]) for i in a] # array of couple(transaction ID, size, fee) for each transaction of the dataset
+    #S = [tuple([str(Tx_Id[i]), int(Weight[i]), int(Fees[i])]) for i in range(len(a))] # array of couple(transaction ID, size, fee) for each transaction of the dataset
 
-    M = max_total_fees_tab(S, Limit)
-    print("Max reward : ", M[len(S)-1][Limit]," BTC")
+    #M = max_total_fees_tab(p, Limit)
+    #print("Max reward : ", M[len(p)-1][Limit]," BTC")
