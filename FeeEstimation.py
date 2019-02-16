@@ -39,11 +39,9 @@ def parse_mempool_csv():
 
 
 def max_total_fees_tab(S, W):
-
     """ Parse the CSV file and return a list of MempoolTransactions."""
     """ Need to modify this algotithm in order to have the parent transactions."""
     """ Ihope I will have time for that..."""
-
     mat = [[0] * (W + 1) for i in range(len(S))]
     for i in range(0, len(S)):
         for j in range(0, len(mat[0])):
@@ -52,6 +50,24 @@ def max_total_fees_tab(S, W):
             else:
                 mat[i][j] = max(mat[i - 1][j], mat[i - 1][int(j - S[i][1])] + S[i][2])
     return mat
+
+def list_transactions(M, S, W):
+    """Get List of transactions from the Maximum reward """
+
+    transactions = []
+    j = W
+    i = len(S) - 1
+    while M[len(S)-1][j] == M[len(S)-1][j-1]:
+        j -= 1
+
+    while j > 0:
+        while i > 0 and M[i][int(j)] == M[i-1][int(j)]:
+            i -= 1
+        j = j-S[i][1]
+        if j > -1:
+            transactions.append(S[i])
+        i -= 1
+    return transactions
 
 
 if __name__ ==  "__main__": 
@@ -63,4 +79,7 @@ if __name__ ==  "__main__":
     Parents = [i.parents for i in a]
     Limit = 4000000 ## Weight Limit
 
-    S = [tuple(Tx_Id[i], Fees[i], Weight[i]) for i in a] #array of couple(transaction ID, size, fee) for each transaction of the dataset
+    S = [tuple(Tx_Id[i], Weight[i], Fees[i]) for i in a] # array of couple(transaction ID, size, fee) for each transaction of the dataset
+
+    M = max_total_fees_tab(S, Limit)
+    print("Max reward : ", M[len(S)-1][Limit]," BTC")
