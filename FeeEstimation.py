@@ -71,9 +71,12 @@ def list_transactions(M, S, W):
 
 
 if __name__ ==  "__main__": 
+    import pandas as pd
+    import numpy as np
+
 
     a = parse_mempool_csv()
-    Tx_Id = [i for i in range(len(a))]
+    Tx_Id = [i.txid  for i in a]
     Fees = [i.fee for i in a]
     Weight = [i.weight for i in a]
     Parents = [i.parents for i in a]
@@ -81,12 +84,19 @@ if __name__ ==  "__main__":
     t = () 
     p = []
     for i in range(len(a)):
-        a = [str(Tx_Id[i]), int(Weight[i]), int(Fees[i])]
-        t = t + a
+        l = np.asarray([str(Tx_Id[i]), int(Weight[i]), int(Fees[i])])
+        # print(l)
+        t = t + tuple(l)
         p.append(t)
-    print(p)
 
-    #S = [tuple([str(Tx_Id[i]), int(Weight[i]), int(Fees[i])]) for i in range(len(a))] # array of couple(transaction ID, size, fee) for each transaction of the dataset
+    M = max_total_fees_tab(p, Limit)
+    print("Max reward : ", M[len(p)-1][Limit]," BTC")
 
-    #M = max_total_fees_tab(p, Limit)
-    #print("Max reward : ", M[len(p)-1][Limit]," BTC")
+    list_tx = list_transactions(M ,p, Limit)
+    block = pd.DataFrame(list(list_tx), columns=["TransactionID" ,"Size","Fee"])
+    block['Size'] = block.Size.astype(int)
+    block['TransactionID'] = block.TransactionID.astype(int)
+    print(block)
+    print("\nTotal block size: ",block['Size'].sum()," bytes")
+    print("Total fees: ",block['Fee'].sum()," BTC")
+    print("Reward for this block: ",block['Fee'].sum()," BTC")
